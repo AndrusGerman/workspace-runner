@@ -31,7 +31,7 @@ func (c *Config) Port() string {
 }
 
 func (c *Config) Database() types.Database {
-	return "github.com/AndrusGerman/workspace-runnerDB"
+	return "workspace-runnerDB"
 }
 
 func (c *Config) UriMongo() string {

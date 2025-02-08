@@ -8,16 +8,17 @@ import (
 	"sync"
 
 	"github.com/AndrusGerman/workspace-runner/internal/core/domain/models"
+	"github.com/AndrusGerman/workspace-runner/internal/core/ports"
 )
 
-func NewRunnerService(logger *RunnerLogger) *RunnerService {
+func NewRunnerService(logger ports.RunnerLogger) ports.RunnerService {
 	return &RunnerService{
 		logger: logger,
 	}
 }
 
 type RunnerService struct {
-	logger *RunnerLogger
+	logger ports.RunnerLogger
 }
 
 func (s *RunnerService) Run(ctx context.Context, workspace *models.Workspace, projects []*models.Project) error {

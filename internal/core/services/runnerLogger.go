@@ -4,9 +4,11 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+
+	"github.com/AndrusGerman/workspace-runner/internal/core/ports"
 )
 
-func NewRunnerLogger() *RunnerLogger {
+func NewRunnerLogger() ports.RunnerLogger {
 	return &RunnerLogger{}
 }
 
