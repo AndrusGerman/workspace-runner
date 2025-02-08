@@ -9,8 +9,9 @@ import (
 )
 
 type TemplateService struct {
-	homeTemplate         *template.Template
-	addWorkspaceTemplate *template.Template
+	homeTemplate          *template.Template
+	addWorkspaceTemplate  *template.Template
+	editWorkspaceTemplate *template.Template
 }
 
 func NewTemplateService() (ports.TemplateService, error) {
@@ -28,9 +29,16 @@ func NewTemplateService() (ports.TemplateService, error) {
 		return nil, err
 	}
 
+	var editWorkspaceTemplate *template.Template
+	editWorkspaceTemplate, err = template.New("editWorkspaceTemplate").Parse(string(templates.EditWorkspaceTemplate))
+	if err != nil {
+		return nil, err
+	}
+
 	return &TemplateService{
-		homeTemplate:         homeTemplate,
-		addWorkspaceTemplate: addWorkspaceTemplate,
+		homeTemplate:          homeTemplate,
+		addWorkspaceTemplate:  addWorkspaceTemplate,
+		editWorkspaceTemplate: editWorkspaceTemplate,
 	}, nil
 
 }
@@ -41,6 +49,10 @@ func (s *TemplateService) GetHomeTemplate(data any) ([]byte, error) {
 
 func (s *TemplateService) GetAddWorkspaceTemplate(data any) ([]byte, error) {
 	return s.executeTemplate(s.addWorkspaceTemplate, data)
+}
+
+func (s *TemplateService) GetEditWorkspaceTemplate(data any) ([]byte, error) {
+	return s.executeTemplate(s.editWorkspaceTemplate, data)
 }
 
 func (s *TemplateService) executeTemplate(template *template.Template, data any) ([]byte, error) {

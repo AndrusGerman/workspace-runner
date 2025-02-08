@@ -45,12 +45,6 @@
         padding: 10px;
         border-radius: 5px;
       }
-
-      .input {
-        padding: 10px;
-        border-radius: 5px;
-        margin: 10px;
-      }
     </style>
   </head>
   <body>
@@ -58,17 +52,10 @@
       <h1>
         <a href="/">Workspace Runner</a>
       </h1>
+
+      <h2>Edit Workspace: ({{.Name}})</h2>
     </div>
 
-    <form action="/api/workspace/add" method="post">
-      <input class="input" type="text" name="name" placeholder="Name" />
-      <input
-        class="input"
-        type="text"
-        name="description"
-        placeholder="Description"
-      />
-      <input class="input" type="submit" value="Save New Workspace" />
-    </form>
+    <div class="workspace-container"></div>
   </body>
 </html>

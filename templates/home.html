@@ -22,7 +22,9 @@
       .container h1 {
         font-size: 2rem;
         font-weight: bold;
+        text-decoration: none;
       }
+
 
       .workspace-container {
         display: flex;
@@ -48,7 +50,10 @@
   </head>
   <body>
     <div class="container">
-      <h1>Workspace Runner</h1>
+      <h1>
+        <a href="/">Workspace Runner</a>
+      </h1>
+
     </div>
 
     <div class="workspace-buttons">
@@ -65,7 +70,7 @@
         <a class="button" href="http://localhost:8000/api/v1/workspace/run"
           >Run</a
         >
-        <a class="button" href="http://localhost:8000/api/v1/workspace/edit"
+        <a class="button" href="/edit-workspace?id={{.GetId}}"
           >Edit</a
         >
         <a class="button" href="http://localhost:8000/api/v1/workspace/delete"

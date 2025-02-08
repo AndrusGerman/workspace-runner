@@ -8,6 +8,7 @@ import (
 
 	"github.com/AndrusGerman/go-criteria"
 	"github.com/AndrusGerman/workspace-runner/internal/core/domain/models"
+	"github.com/AndrusGerman/workspace-runner/internal/core/domain/types"
 	"github.com/AndrusGerman/workspace-runner/internal/core/ports"
 )
 
@@ -56,6 +57,36 @@ func (s *server) Start() {
 		}
 
 		s.html(w, http.StatusOK, template)
+	})
+
+	http.HandleFunc("/edit-workspace", func(w http.ResponseWriter, r *http.Request) {
+		idString := r.URL.Query().Get("id")
+
+		if idString == "" {
+			s.error(w, http.StatusBadRequest, "ID is required")
+			return
+		}
+
+		id, err := types.NewIdByString(idString)
+		if err != nil {
+			s.error(w, http.StatusBadRequest, err.Error())
+			return
+		}
+
+		workspace, err := s.workspaceService.GetById(context.Background(), id)
+		if err != nil {
+			s.error(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		template, err := s.templateService.GetEditWorkspaceTemplate(workspace)
+		if err != nil {
+			s.error(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		s.html(w, http.StatusOK, template)
+
 	})
 
 	http.HandleFunc("/api/workspace/add", func(w http.ResponseWriter, r *http.Request) {

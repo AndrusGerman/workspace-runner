@@ -18,3 +18,7 @@ func NewIdByString(hex string) (Id, error) {
 func (id Id) GetPrimitive() bson.ObjectID {
 	return bson.ObjectID(id)
 }
+
+func (id Id) String() string {
+	return id.GetPrimitive().Hex()
+}
