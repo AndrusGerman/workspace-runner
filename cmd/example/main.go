@@ -28,13 +28,13 @@ func main() {
 	var projectRepository = repository.NewProjectRepository(mongo)
 	var projectService = services.NewProjectService(projectRepository)
 
-	var workspace = models.NewWorkspace("workspace 1")
+	var workspace = models.NewWorkspace("workspace 1", "workspace 1 description")
 	err = workspaceService.Create(context.Background(), workspace)
 	if err != nil {
 		panic(err)
 	}
 
-	var project = models.NewProject("project 1", workspace.GetId(), ".", models.NewCmd("ls", []string{"-l"}))
+	var project = models.NewProject("project 1", workspace.GetId(), ".", models.NewCmd("ls", []string{"-l"}, []models.Env{}))
 	err = projectService.Create(context.Background(), project)
 	if err != nil {
 		panic(err)
