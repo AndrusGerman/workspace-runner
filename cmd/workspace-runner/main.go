@@ -1,14 +1,11 @@
 package main
 
 import (
-	"context"
 	"flag"
-	"fmt"
-	"log"
 
-	"github.com/AndrusGerman/go-criteria"
 	"github.com/AndrusGerman/workspace-runner/cmd/workspace-runner/bootstrap"
-	"github.com/AndrusGerman/workspace-runner/internal/core/domain/models"
+	"github.com/AndrusGerman/workspace-runner/internal/adapters/server"
+	"github.com/AndrusGerman/workspace-runner/internal/core/services"
 )
 
 func init() {
@@ -21,77 +18,25 @@ func main() {
 		panic(err)
 	}
 
-	if len(flag.Args()) == 0 {
-		workspaceHello()
+	if len(flag.Args()) > 0 && flag.Args()[0] == "run" {
+		run(bootstrap)
 		return
 	}
 
-	if flag.Args()[0] == "run" {
-		if len(flag.Args()) < 2 {
-			log.Println("No workspace name provided")
-			return
-		}
-		var workspaceName = flag.Args()[1]
-
-		run(bootstrap, workspaceName)
-		return
-	}
-
-	if flag.Args()[0] == "list" {
+	if len(flag.Args()) > 0 && flag.Args()[0] == "list" {
 		list(bootstrap)
 		return
 	}
 
-}
-
-func list(bootstrap *bootstrap.Bootstrap) {
-	workspaces, err := bootstrap.WorkspaceService.Search(context.Background(), criteria.EmptyCriteria())
-	if err != nil {
-		panic(err)
+	if len(flag.Args()) > 0 && flag.Args()[0] == "server" {
+		var templateService, err = services.NewTemplateService()
+		if err != nil {
+			panic(err)
+		}
+		var server = server.NewServer(bootstrap.WorkspaceService, templateService)
+		server.Start()
+		return
 	}
 
-	for _, workspace := range workspaces {
-		fmt.Printf("- %s\n", workspace.Name)
-		listProjects(bootstrap, workspace)
-	}
-}
-
-func listProjects(bootstrap *bootstrap.Bootstrap, workspace *models.Workspace) {
-	projects, err := bootstrap.ProjectService.GetByWorkspaceId(context.Background(), workspace.GetId())
-	if err != nil {
-		panic(err)
-	}
-
-	for _, project := range projects {
-		fmt.Printf("  - %s\n", project.Name)
-	}
-
-}
-
-func run(bootstrap *bootstrap.Bootstrap, workspaceName string) {
-	workspace, err := bootstrap.WorkspaceService.GetByName(context.Background(), workspaceName)
-
-	if err != nil {
-		panic(err)
-	}
-
-	projects, err := bootstrap.ProjectService.GetByWorkspaceId(context.Background(), workspace.GetId())
-	if err != nil {
-		panic(err)
-	}
-
-	err = bootstrap.RunnerService.Run(context.Background(), workspace, projects)
-	if err != nil {
-		panic(err)
-	}
-}
-
-func workspaceHello() {
-	var message = `Welcome to workspace-runner!
-
-Usage:
-workspace-runner run <workspace-name>
-workspace-runner list`
-
-	fmt.Println(message)
+	hello()
 }

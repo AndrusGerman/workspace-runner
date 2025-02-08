@@ -20,3 +20,8 @@ List workspaces
 ```bash
 workspace-runner list
 ```
+
+Run server
+```bash
+workspace-runner server
+```
