@@ -33,7 +33,7 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		var server = server.NewServer(bootstrap.WorkspaceService, templateService)
+		var server = server.NewServer(bootstrap.WorkspaceService, templateService, bootstrap.ProjectService)
 		server.Start()
 		return
 	}

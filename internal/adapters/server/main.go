@@ -15,15 +15,18 @@ import (
 type server struct {
 	workspaceService ports.WorkspaceService
 	templateService  ports.TemplateService
+	projectService   ports.ProjectService
 }
 
 func NewServer(
 	workspaceService ports.WorkspaceService,
 	templateService ports.TemplateService,
+	projectService ports.ProjectService,
 ) *server {
 	return &server{
 		workspaceService: workspaceService,
 		templateService:  templateService,
+		projectService:   projectService,
 	}
 }
 
@@ -79,7 +82,24 @@ func (s *server) Start() {
 			return
 		}
 
-		template, err := s.templateService.GetEditWorkspaceTemplate(workspace)
+		projects, err := s.projectService.GetByWorkspaceId(context.Background(), id)
+		if err != nil {
+			s.error(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		type editWorkspaceTemplateData struct {
+			*models.Workspace
+			Projects []*models.Project
+		}
+
+		var data = editWorkspaceTemplateData{
+			Workspace: workspace,
+			Projects:  projects,
+		}
+
+		template, err := s.templateService.GetEditWorkspaceTemplate(data)
+
 		if err != nil {
 			s.error(w, http.StatusInternalServerError, err.Error())
 			return

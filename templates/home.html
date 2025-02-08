@@ -29,7 +29,6 @@
       .workspace-container {
         display: flex;
         flex-direction: column;
-        align-items: center;
         justify-content: center;
       }
 
@@ -65,7 +64,7 @@
     <div class="workspace-container">
       {{range .}}
       <div class="workspace-item">
-        <h2>{{.Name}}</h2>
+        <h2>Workspace: {{.Name}}</h2>
         <p>{{.Description}}</p>
         <a class="button" href="http://localhost:8000/api/v1/workspace/run"
           >Run</a

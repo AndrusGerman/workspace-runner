@@ -28,7 +28,6 @@
       .workspace-container {
         display: flex;
         flex-direction: column;
-        align-items: center;
         justify-content: center;
       }
 
@@ -56,6 +55,15 @@
       <h2>Edit Workspace: ({{.Name}})</h2>
     </div>
 
-    <div class="workspace-container"></div>
+    <div class="workspace-container">
+      {{range .Projects}}
+      <div class="workspace-item">
+        <h2>Project: {{.Name}}</h2>
+
+        <a class="button" href="/edit-project?id={{.GetId}}">Edit</a>
+        <a class="button" href="/">Delete</a>
+      </div>
+      {{end}}
+    </div>
   </body>
 </html>
