@@ -27,11 +27,25 @@ func NewProject(name string, workspaceId types.Id, workDirectory string, cmd *Cm
 type Cmd struct {
 	Command string   `json:"command"`
 	Args    []string `json:"args"`
+	Env     []Env    `json:"env"`
 }
 
-func NewCmd(command string, args []string) *Cmd {
+func NewCmd(command string, args []string, env []Env) *Cmd {
 	return &Cmd{
 		Command: command,
 		Args:    args,
+		Env:     env,
 	}
+}
+
+func NewEnv(key string, value string) *Env {
+	return &Env{
+		Key:   key,
+		Value: value,
+	}
+}
+
+type Env struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }

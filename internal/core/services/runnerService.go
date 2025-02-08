@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 	"sync"
 
@@ -50,6 +51,11 @@ func (s *RunnerService) runProject(_ context.Context, project *models.Project, w
 
 	cmd.Stdout = s.logger.GetStdout(project.Name)
 	cmd.Stderr = s.logger.GetStderr(project.Name)
+
+	cmd.Env = os.Environ()
+	for _, env := range project.Cmd.Env {
+		cmd.Env = append(cmd.Env, fmt.Sprintf("%s=%s", env.Key, env.Value))
+	}
 
 	go func() {
 		waitClose.Wait()
