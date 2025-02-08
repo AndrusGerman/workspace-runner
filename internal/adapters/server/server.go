@@ -35,6 +35,8 @@ func (s *server) Start() {
 
 	log.Println("Starting server on port", port)
 
+	log.Println("Server http://localhost:" + port)
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		workspaces, err := s.workspaceService.Search(context.Background(), criteria.EmptyCriteria())
 		if err != nil {
