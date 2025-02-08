@@ -22,7 +22,7 @@ func main() {
 	}
 
 	if len(flag.Args()) == 0 {
-		log.Println("No flag provided")
+		workspaceHello()
 		return
 	}
 
@@ -84,4 +84,14 @@ func run(bootstrap *bootstrap.Bootstrap, workspaceName string) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func workspaceHello() {
+	var message = `Welcome to workspace-runner!
+
+Usage:
+workspace-runner run <workspace-name>
+workspace-runner list`
+
+	fmt.Println(message)
 }
