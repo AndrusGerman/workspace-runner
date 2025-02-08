@@ -7,7 +7,7 @@ import (
 	"log"
 
 	"github.com/AndrusGerman/go-criteria"
-	"github.com/AndrusGerman/workspace-runner/cmd/cmd/bootstrap"
+	"github.com/AndrusGerman/workspace-runner/cmd/workspace-runner/bootstrap"
 	"github.com/AndrusGerman/workspace-runner/internal/core/domain/models"
 )
 
