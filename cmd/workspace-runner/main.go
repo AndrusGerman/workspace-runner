@@ -4,8 +4,6 @@ import (
 	"flag"
 
 	"github.com/AndrusGerman/workspace-runner/cmd/workspace-runner/bootstrap"
-	"github.com/AndrusGerman/workspace-runner/internal/adapters/server"
-	"github.com/AndrusGerman/workspace-runner/internal/core/services"
 )
 
 func init() {
@@ -29,12 +27,7 @@ func main() {
 	}
 
 	if len(flag.Args()) > 0 && flag.Args()[0] == "server" {
-		var templateService, err = services.NewTemplateService()
-		if err != nil {
-			panic(err)
-		}
-		var server = server.NewServer(bootstrap.WorkspaceService, templateService, bootstrap.ProjectService)
-		server.Start()
+		mainServer(bootstrap)
 		return
 	}
 

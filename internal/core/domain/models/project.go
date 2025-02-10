@@ -9,8 +9,8 @@ import (
 type Project struct {
 	*Base         `bson:",inline" json:",inline"`
 	Name          string        `bson:"name" json:"name"`
-	WorkspaceId   bson.ObjectID `bson:"workspace_id" json:"workspace_id"`
-	WorkDirectory string        `bson:"work_directory" json:"work_directory"`
+	WorkspaceId   bson.ObjectID `bson:"workspace_id" json:"workspaceId"`
+	WorkDirectory string        `bson:"work_directory" json:"workDir"`
 	Cmd           *Cmd          `bson:"cmd" json:"cmd"`
 }
 
